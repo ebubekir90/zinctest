@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Reports and generated files
+reports/*
+!reports/.gitkeep
+screenshots/*
+!screenshots/.gitkeep
+test-results/
+playwright-report/
+
+# Local environment (contains secrets - never commit)
+.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.iml

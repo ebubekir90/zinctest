@@ -1,0 +1,92 @@
+name: Tests & Allure Report
+
+# Runs automated UI tests on GitHub Actions and publishes the Allure report
+# to GitHub Pages (branch: gh-pages).
+#
+# Triggers:
+#   - push to main
+#   - pull requests (report is not deployed, only built + checked)
+#   - manual run via the Actions tab ("Run workflow")
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Required so the workflow can deploy the report to the gh-pages branch.
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# Only keep the most recent run in the queue.
+concurrency:
+  group: ci-allure
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # The Allure command-line tool needs a JVM to generate the HTML report,
+      # even though the test results themselves are produced without Java.
+      - name: Set up Java (for Allure CLI)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers (Chromium)
+        run: npx playwright install --with-deps chromium
+
+      # Run the Cucumber + Playwright tests. Config defaults to headless
+      # Chromium (see support/config.ts), which is perfect for CI.
+      - name: Run tests
+        run: npm test
+
+      - name: Generate Allure HTML report
+        run: npm run report:allure
+
+      - name: Upload Allure raw results (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: reports/allure-results
+          retention-days: 30
+
+      - name: Upload Allure report (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: reports/allure-report
+          retention-days: 30
+
+      - name: Upload Cucumber HTML report (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-report
+          path: reports/cucumber-report.html
+          retention-days: 30
+
+      # Deploy the report to the gh-pages branch on main only, so it can be
+      # served via GitHub Pages.
+      - name: Deploy Allure report to GitHub Pages
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./reports/allure-report
+          publish_branch: gh-pages
+          force_orphan: true

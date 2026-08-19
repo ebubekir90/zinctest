@@ -1,0 +1,43 @@
+{
+  "name": "automation-framework",
+  "version": "1.0.0",
+  "description": "Basic but professional UI test automation framework built with Playwright, TypeScript, Cucumber BDD, and Node.js",
+  "private": true,
+  "scripts": {
+    "test": "cucumber-js",
+    "test:headed": "cross-env HEADLESS=false cucumber-js",
+    "test:chrome": "cross-env BROWSER=chromium cucumber-js",
+    "test:firefox": "cross-env BROWSER=firefox cucumber-js",
+    "test:webkit": "cross-env BROWSER=webkit cucumber-js",
+    "test:smoke": "playwright test",
+    "typecheck": "tsc --noEmit",
+    "report": "npx http-server ./reports -o -c-1",
+    "report:allure": "allure generate reports/allure-results -o reports/allure-report --clean",
+    "open:allure": "allure open reports/allure-report",
+    "clean": "rimraf reports screenshots"
+  },
+  "keywords": [
+    "playwright",
+    "cucumber",
+    "typescript",
+    "bdd",
+    "ui-testing"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@cucumber/cucumber": "^13.2.1",
+    "@playwright/test": "^1.62.1",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.0",
+    "allure-commandline": "^2.43.0",
+    "allure-cucumberjs": "^3.10.2",
+    "allure-js-commons": "^3.10.2",
+    "cross-env": "^7.0.3",
+    "playwright": "^1.62.1",
+    "rimraf": "^6.0.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.3"
+  }
+}
