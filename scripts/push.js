@@ -14,7 +14,12 @@ const os = require('node:os');
 const path = require('node:path');
 
 const args = process.argv.slice(2);
-const message = args.join(' ') || `chore: update ${new Date().toISOString()}`;
+let message = args.join(' ') || `chore: update ${new Date().toISOString()}`;
+// Some shells / npm configs pass the argument wrapped in double quotes;
+// strip one surrounding pair (if present) so the committed message is clean.
+if (message.length >= 2 && message.startsWith('"') && message.endsWith('"')) {
+  message = message.slice(1, -1);
+}
 
 // Run a command but keep going even if it fails (e.g. "nothing to commit").
 function run(command) {
