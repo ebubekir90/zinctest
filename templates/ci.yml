@@ -1,0 +1,41 @@
+# Generic GitHub Actions CI for a Node.js project.
+# Copy to: .github/workflows/ci.yml
+# Adjust the "run:" lines to match your project's real commands.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Only if you use Playwright/Cypress (remove otherwise).
+      - name: Install Playwright browsers (Chromium)
+        run: npx playwright install --with-deps chromium
+
+      - name: Run tests
+        run: npm test
+
+      # Optional: upload test reports as downloadable artifacts.
+      # - name: Upload test report artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: report
+      #     path: reports
+      #     retention-days: 30
