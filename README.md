@@ -436,6 +436,33 @@ tear-down (After) section in Allure. A copy is also saved to `screenshots/`.
 
 ---
 
+## Running on GitHub (CI)
+
+The repository includes a GitHub Actions workflow
+(`.github/workflows/ci.yml`) that:
+
+1. On every push to `main` (also on pull requests and manual runs):
+   - installs dependencies (`npm ci`) and Chromium (`npx playwright install`),
+   - runs the full test suite (`npm test`),
+   - generates the Allure report (`npm run report:allure`).
+2. Uploads the Allure report, the raw Allure results, and the Cucumber HTML
+   report as downloadable **artifacts**.
+3. On `main`, deploys the Allure report to the `gh-pages` branch so it can be
+   served publicly via **GitHub Pages**.
+
+To get started on GitHub after pushing:
+
+1. Open your repository → **Settings** → **Pages**.
+2. Under **Build and deployment**, set **Source** to `Deploy from a branch`.
+3. Set the **Branch** to `gh-pages` and the folder to `/ (root)`, then **Save**.
+4. Every new push to `main` will re-run the tests and refresh the published
+   Allure report at `https://<your-user>.github.io/<your-repo>/`.
+
+> Note: the Allure CLI needs a JVM, so the workflow installs **Java 17**
+> (`actions/setup-java`) before generating the report.
+
+---
+
 ## Troubleshooting
 
 - **`Executable doesn't exist`** – run `npx playwright install` to download the
