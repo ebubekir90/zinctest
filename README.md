@@ -463,6 +463,29 @@ To get started on GitHub after pushing:
 
 ---
 
+## Using this project as a template
+
+This repo is configured to be reused as a **GitHub template repository**, so you
+can spin up a new automation project with all the tooling already wired up.
+
+### Create a new project from it
+1. On GitHub, open this repo and click the green **"Use this template"** button.
+2. Name the new repo and create it — everything (CI, Allure, the `push`
+   shortcut, `.gitignore`) is copied over automatically.
+3. Clone it and run `npm install`, then clean up the project-specific bits:
+   - Delete the demo tests: `features/login.feature`,
+     `features/step-definitions/login.steps.ts`, `pages/*`, `smoke/*`.
+   - Point the tests at your own app (`BASE_URL` in `.env`, selectors in the
+     Page Objects).
+   - Rename the package in `package.json`.
+4. Create a local `.env` with your secrets — `.env` is git-ignored, so it stays
+   safe and is never pushed.
+
+Then run `npm test` locally and `npm run push` to trigger GitHub Actions.
+The reusable snippets also live in `templates/` for copy-paste into other repos.
+
+---
+
 ## Troubleshooting
 
 - **`Executable doesn't exist`** – run `npx playwright install` to download the
