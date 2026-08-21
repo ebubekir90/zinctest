@@ -9,7 +9,8 @@ export default defineConfig({
   retries: 0,
   reporter: [['html', { open: 'never' }]],
   use: {
-    baseURL: process.env.BASE_URL ?? 'https://www.saucedemo.com'
+    baseURL: process.env.BASE_URL ?? 'https://zincbank.cydeo.io/',
+    headless: false,
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },

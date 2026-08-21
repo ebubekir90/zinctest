@@ -12,9 +12,9 @@ export interface Viewport {
  * Defaults keep the framework runnable without any environment setup.
  */
 export const config = {
-  baseUrl: process.env.BASE_URL ?? 'https://www.saucedemo.com',
+  baseUrl: process.env.BASE_URL ?? 'https://zincbank.cydeo.io/',
   browser: process.env.BROWSER ?? 'chromium',
-  headless: (process.env.HEADLESS ?? 'true').toLowerCase() === 'true',
+  headless: false,
   timeout: Number(process.env.TIMEOUT ?? 15000),
   viewport: { width: 1280, height: 720 } as Viewport
 };

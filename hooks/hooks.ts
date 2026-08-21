@@ -12,7 +12,7 @@ let browser: Browser;
 
 BeforeAll(async function () {
   browser = await getBrowserType().launch({
-    headless: config.headless
+    headless:false,
   });
 });
 

@@ -8,7 +8,11 @@ test('User can log in with valid credentials', async ({ page }) => {
   const loginPage = new LoginPage(page);
 
   await loginPage.open();
-  await loginPage.login(users.validUser.username, users.validUser.password);
+  await loginPage.login(users.validUser.email, users.validUser.password);
 
-  expect(await loginPage.isDashboardVisible()).toBe(true);
+ // ESKİ (Hata veren satır):
+// expect(await loginPage.isDashboardVisible()).toBe(true);
+
+// YENİ (Önerilen):
+expect(await loginPage.isDashboardVisible()).toBe(true);
 });

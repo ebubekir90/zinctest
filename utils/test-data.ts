@@ -4,17 +4,17 @@
  * reference the same, well-typed dataset.
  */
 export interface User {
-  username: string;
+  email: string;
   password: string;
 }
 
 export const users: Record<'validUser' | 'invalidUser', User> = {
   validUser: {
-    username: 'standard_user',
-    password: 'secret_sauce'
+    email: 'student01@zinc.test',
+    password: '9pJolA7GBQec'
   },
   invalidUser: {
-    username: 'invalid_user',
+    email: 'invalid_user',
     password: 'wrong_password'
   }
 };

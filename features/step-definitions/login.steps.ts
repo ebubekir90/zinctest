@@ -11,11 +11,11 @@ Given('I navigate to the login page', async function (this: CustomWorld) {
 });
 
 When('I login with valid credentials', async function (this: CustomWorld) {
-  await this.loginPage.login(users.validUser.username, users.validUser.password);
+  await this.loginPage.login(users.validUser.email, users.validUser.password);
 });
 
 When('I login with invalid credentials', async function (this: CustomWorld) {
-  await this.loginPage.login(users.invalidUser.username, users.invalidUser.password);
+  await this.loginPage.login(users.invalidUser.email, users.invalidUser.password);
 });
 
 Then('I should see the dashboard', async function (this: CustomWorld) {
